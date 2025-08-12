@@ -8,4 +8,6 @@
 
 </style>
 <script setup lang="ts">
+  console.log('aaaa')
+  console.log(import.meta.env.VITE_API_URL)
 </script>

@@ -7,7 +7,6 @@ import Header from "@/components/Header.vue";
   <Header :layout="'auth'" />
   <div class="auth-container">
     <router-view />
-    This is auth layout
   </div>
 </template>
 

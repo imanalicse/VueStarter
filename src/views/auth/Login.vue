@@ -57,6 +57,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import router from "@/router";
+import {loginUser} from "@/services/userService.ts";
 
 interface LoginForm {
   email: string
@@ -78,8 +79,13 @@ const handleLogin = async (): Promise<void> => {
   error.value = null
 
   try {
+    const email = form.value.email
+    const password = form.value.password
+    // const remember = form.value.remember
+    const data = await loginUser(email, password)
+    console.log('data', data)
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    // await new Promise(resolve => setTimeout(resolve, 1000))
 
     // Example: Replace with real API call
     // const response = await fetch('/api/login', {

@@ -75,7 +75,7 @@ const form = ref<LoginForm>({
 const authStore = useAuthStore();
 
 if (authStore.isLoggedIn) {
-  router.push({name: "profile"});
+  router.push({ name: "profile" });
 }
 
 const loading = ref<boolean>(false)

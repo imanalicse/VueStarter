@@ -5,6 +5,7 @@ export const useAuthStore = defineStore('auth', {
     accessToken: '' as string | null,
     user: null as Record<string, any> | null,
   }),
+  persist: true,
   getters: {
     isLoggedIn: (state) => !!state.accessToken,
   },

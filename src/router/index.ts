@@ -5,27 +5,43 @@ import ProductsView from "@/views/ProductsView.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import Login from "@/views/auth/Login.vue";
 import Me from "@/views/auth/Me.vue";
+import {useAuthStore} from "@/stores/auth.ts";
+
+const routes = [
+  {
+    path: '/',
+    component: FrontendLayout,
+    children: [
+      { path: '', name: 'home', component: HomeView },
+      { path: '/me', name: 'me', component: Me, meta: { requiresAuth: true } },
+      { path: '/products', name: 'products', component: ProductsView },
+    ]
+  },
+  {
+    path: '/',
+    component: AuthLayout,
+    children: [
+      { path: 'login', name: 'login', component: Login },
+    ]
+  },
+];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      component: FrontendLayout,
-      children: [
-        { path: '', name: 'home', component: HomeView },
-        { path: '/me', name: 'me', component: Me },
-        { path: '/products', name: 'products', component: ProductsView },
-      ]
-    },
-    {
-      path: '/',
-      component: AuthLayout,
-      children: [
-        { path: 'login', name: 'login', component: Login },
-      ]
-    },
-  ],
+  history: createWebHistory(),
+  routes
 })
+
+router.beforeEach((to, _from, next) => {
+  const authStore = useAuthStore();
+  if (to.meta.requiresAuth && !authStore.isLoggedIn) {
+    next({ name: 'login' });
+  }
+  // else if (store.state.user.token && (to.meta.isGuest)) {
+  //   next({ name: "Dashboard" })
+  // }
+  else {
+    next();
+  }
+});
 
 export default router

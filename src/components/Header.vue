@@ -1,22 +1,21 @@
 <script setup lang="ts">
   import {RouterLink} from "vue-router";
+  import {useAuthStore} from "@/stores/auth.ts";
   interface HeaderProps {
     layout?: 'frontend' | 'auth';
-    isAuthenticated?: boolean;
   }
 // const props = defineProps<HeaderProps>();
 const props = withDefaults(defineProps<HeaderProps>(), {
-  layout: 'frontend',
-  isAuthenticated: false,
+  layout: 'frontend'
 });
+
+  const authStore = useAuthStore();
+  console.log('header_isLoggedIn', authStore.isLoggedIn);
+  const isLoggedIn = authStore.isLoggedIn;
 /*const props = defineProps({
   layout: {
     type: String,
     default: 'frontend'
-  },
-  isAuthenticated: {
-    type: Boolean,
-    default: false
   }
 });*/
 console.log('props', props);
@@ -33,8 +32,10 @@ console.log('props', props);
         </nav>
         <div class="text-end ms-auto">
           <RouterLink to="/checkout" class="ms-3">Checkout</RouterLink>
-          <RouterLink to="login" class="ms-3">Log in</RouterLink>
-          <RouterLink to="/register" class="ms-3">Sign-up</RouterLink>
+          <RouterLink v-if="!isLoggedIn" to="login" class="ms-3">Log in</RouterLink>
+          <RouterLink v-if="isLoggedIn" to="logout" class="ms-3">Log out</RouterLink>
+          <RouterLink v-if="!isLoggedIn" to="/register" class="ms-3">Sign-up</RouterLink>
+          <RouterLink to="/me" class="ms-3">Profile</RouterLink>
         </div>
       </div>
     </div>

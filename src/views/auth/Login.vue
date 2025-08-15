@@ -58,6 +58,7 @@
 import { ref } from 'vue'
 import router from "@/router";
 import {loginUser} from "@/services/userService.ts";
+import {useAuthStore} from "@/stores/auth.ts";
 
 interface LoginForm {
   email: string
@@ -71,6 +72,8 @@ const form = ref<LoginForm>({
   remember: false
 })
 
+const authStore = useAuthStore();
+
 const loading = ref<boolean>(false)
 const error = ref<string | null>(null)
 
@@ -82,24 +85,13 @@ const handleLogin = async (): Promise<void> => {
     const email = form.value.email
     const password = form.value.password
     // const remember = form.value.remember
-    const data = await loginUser(email, password)
-    console.log('data', data)
-    // Simulate API delay
-    // await new Promise(resolve => setTimeout(resolve, 1000))
+    const response = await loginUser(email, password)
+    console.log('response', response)
 
-    // Example: Replace with real API call
-    // const response = await fetch('/api/login', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(form.value)
-    // })
-    // const data = await response.json()
-    // if (!response.ok) throw new Error(data.message)
-
-    if (form.value.email === 'admin@gmail.com' && form.value.password === '123') {
-      alert('Login successful!')
-      // Save token and redirect
-      // localStorage.setItem('token', 'fake-jwt-token')
+    if (response.access_token) {
+      const accessToken = response.access_token
+      sessionStorage.setItem('access_token', accessToken);
+      authStore.login(accessToken, response.user);
       router.push('/me')
     }
     else {

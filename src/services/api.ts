@@ -5,7 +5,7 @@ import AppConfig from "@/config/AppConfig.ts";
 // Create Axios instance
 const api: AxiosInstance = axios.create({
   baseURL: AppConfig.API_BASE_URL,
-  timeout: 10000,
+  // timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },

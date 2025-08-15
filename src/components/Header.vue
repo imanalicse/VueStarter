@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import {RouterLink} from "vue-router";
-  import {useAuthStore} from "@/stores/auth.ts";
+  import {useAuthStore} from "@/stores/authStore.ts";
   interface HeaderProps {
     layout?: 'frontend' | 'auth';
   }

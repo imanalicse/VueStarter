@@ -58,7 +58,7 @@
 import { ref } from 'vue'
 import router from "@/router";
 import {loginUser} from "@/services/userService.ts";
-import {useAuthStore} from "@/stores/auth.ts";
+import {useAuthStore} from "@/stores/authStore.ts";
 
 interface LoginForm {
   email: string
@@ -73,6 +73,10 @@ const form = ref<LoginForm>({
 })
 
 const authStore = useAuthStore();
+
+if (authStore.isLoggedIn) {
+  router.push({name: "profile"});
+}
 
 const loading = ref<boolean>(false)
 const error = ref<string | null>(null)
@@ -90,7 +94,6 @@ const handleLogin = async (): Promise<void> => {
 
     if (response.access_token) {
       const accessToken = response.access_token
-      sessionStorage.setItem('access_token', accessToken);
       authStore.login(accessToken, response.user);
       router.push('/me')
     }

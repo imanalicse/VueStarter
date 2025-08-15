@@ -4,8 +4,9 @@ import FrontendLayout from "@/layouts/FrontendLayout.vue";
 import ProductsView from "@/views/ProductsView.vue";
 import AuthLayout from "@/layouts/AuthLayout.vue";
 import Login from "@/views/auth/Login.vue";
-import Me from "@/views/auth/Me.vue";
-import {useAuthStore} from "@/stores/auth.ts";
+import Me from "@/views/auth/Profile.vue";
+import {useAuthStore} from "@/stores/authStore.ts";
+import Logout from "@/views/auth/Logout.vue";
 
 const routes = [
   {
@@ -13,7 +14,7 @@ const routes = [
     component: FrontendLayout,
     children: [
       { path: '', name: 'home', component: HomeView },
-      { path: '/me', name: 'me', component: Me, meta: { requiresAuth: true } },
+      { path: '/me', name: 'profile', component: Me, meta: { requiresAuth: true } },
       { path: '/products', name: 'products', component: ProductsView },
     ]
   },
@@ -22,6 +23,7 @@ const routes = [
     component: AuthLayout,
     children: [
       { path: 'login', name: 'login', component: Login },
+      { path: 'logout', name: 'logout', component: Logout },
     ]
   },
 ];
